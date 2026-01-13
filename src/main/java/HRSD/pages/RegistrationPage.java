@@ -116,8 +116,6 @@ public class RegistrationPage extends BasePage {
             System.out.println("Assertion Passed: Success message verified.");
 
         } catch (Exception e) {
-            System.out.println("Timeout or error waiting for message. Taking screenshot...");
-            takeScreenshot("SuccessMessageFailure");
             throw new RuntimeException("Success message verification failed.", e);
         }
     }
