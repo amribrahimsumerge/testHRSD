@@ -42,7 +42,7 @@ public class RegistrationPage extends BasePage {
     }
 
     public void completeFullRegistration(String arabicName, String englishName) throws InterruptedException {
-        System.out.println("Starting full registration flow...");
+        System.out.println("Starting full registration flow.");
         Random random = new Random();
 
         fillInputInShadow(ARABIC_HOST, "input[placeholder='اسم المنشأة بالعربية']", arabicName);
