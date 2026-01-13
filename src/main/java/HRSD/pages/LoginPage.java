@@ -15,10 +15,7 @@ public class LoginPage extends BasePage {
     }
 
     public void clickRegisterNewOrganization() {
-
-        WebElement registerBtn = fluentWait.until(
-                ExpectedConditions.visibilityOfElementLocated(registerNewOrgBtnLocator)
-        );
+        WebElement registerBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(registerNewOrgBtnLocator));
 
         click(registerBtn);
 

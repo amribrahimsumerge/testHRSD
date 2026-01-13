@@ -3,6 +3,7 @@ package HRSD.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LandingPage extends BasePage {
 
@@ -14,11 +15,8 @@ public class LandingPage extends BasePage {
     }
 
     public void clickLogin() {
+        WebElement loginBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(loginBtnLocator));
 
-        WebElement loginBtn = driver.findElement(loginBtnLocator);
-
-
-        waitForVisibility(loginBtn);
         click(loginBtn);
 
         System.out.println("Login button clicked.");
