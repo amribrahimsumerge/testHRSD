@@ -31,9 +31,9 @@ public class LoginTest extends BaseTest {
         String arName = "منشأة سامرج جروب ";
         String enName = "Sumerge group";
 
-        // This method now handles filling, submitting, OTP, and verifying success
+
         registrationPage.completeFullRegistration(arName, enName);
 
-        Thread.sleep(5000); // Extra time to see the success message
+//        Thread.sleep(5000);
     }
 }

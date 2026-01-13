@@ -17,7 +17,7 @@ public class LandingPage extends BasePage {
 
         WebElement loginBtn = driver.findElement(loginBtnLocator);
 
-        // Use BasePage utility to wait and click
+
         waitForVisibility(loginBtn);
         click(loginBtn);
 

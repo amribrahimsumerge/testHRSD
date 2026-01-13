@@ -12,7 +12,6 @@ public class BaseTest {
 
     protected WebDriver driver;
 
-    // Changed to @BeforeClass so it runs once before all tests in this class
     @BeforeClass
     public void setUp() {
         String driverPath = "C:/Users/aragab/Downloads/chromedriver-win64/chromedriver-win64/chromedriver.exe";
@@ -28,7 +27,6 @@ public class BaseTest {
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--start-maximized");
 
-        // Fix for HTTPS/SSL errors
         options.setAcceptInsecureCerts(true);
         options.addArguments("--ignore-certificate-errors");
 

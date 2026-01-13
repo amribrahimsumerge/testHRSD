@@ -11,7 +11,6 @@ import java.util.Random;
 
 public class RegistrationPage extends BasePage {
 
-    // --- HOST SELECTORS (Containers of Shadow Roots) ---
     private final String ARABIC_HOST = "#OrganizationArabicNameField";
     private final String ENGLISH_HOST = "#OrganizationEnglishNameField";
     private final String NUMBER_700_HOST = "#Number700Field";
@@ -25,15 +24,11 @@ public class RegistrationPage extends BasePage {
     private final String FOUNDATION_HOST = "#FoundationDateField";
     private final String DOMAIN_HOST = "#DomainField";
     private final String EMAIL_HOST = "#EmailDomainField";
-
-    // New Host for Verification Code
     private final String VERIFICATION_HOST = "#VerificationCodeField";
 
-    // UPDATED: Register Button is now a Shadow Host
     private final String REGISTER_BTN_HOST = "#RegisterButton";
     private final String REGISTER_BTN_TARGET = "button[type='submit']";
 
-    // --- STANDARD SELECTORS ---
     private final By CONFIRM_BUTTON = By.id("ConfirmButton");
 
     private String generatedDomainName = "";
@@ -46,7 +41,6 @@ public class RegistrationPage extends BasePage {
         System.out.println("Starting full registration flow...");
         Random random = new Random();
 
-        // --- PART 1: FILL FORM FIELDS ---
         fillInputInShadow(ARABIC_HOST, "input[placeholder='اسم المنشأة بالعربية']", arabicName);
         fillInputInShadow(ENGLISH_HOST, "input[placeholder='اسم المنشأة بالإنجليزية']", englishName);
 
@@ -85,9 +79,6 @@ public class RegistrationPage extends BasePage {
 
         System.out.println("All fields filled. Proceeding to submission...");
 
-        // --- PART 2: SUBMIT AND VERIFY ---
-
-        // 1. Click Register Button (via JS to avoid interception)
         System.out.println("Attempting to click Register Button inside Shadow Root...");
         WebElement registerBtn = locateElementsInShadowRoot(REGISTER_BTN_HOST, REGISTER_BTN_TARGET);
 
@@ -98,24 +89,20 @@ public class RegistrationPage extends BasePage {
             throw new RuntimeException("Could not find Register Button in shadow root: " + REGISTER_BTN_HOST);
         }
 
-        // 2. Enter Verification Code (5-5-5-5)
         System.out.println("Entering Verification Code...");
         fillInputInShadow(VERIFICATION_HOST, "[id='-0']", "5");
         fillInputInShadow(VERIFICATION_HOST, "[id='-1']", "5");
         fillInputInShadow(VERIFICATION_HOST, "[id='-2']", "5");
         fillInputInShadow(VERIFICATION_HOST, "[id='-3']", "5");
 
-        // 3. Click Confirm Button
         WebElement confirmBtn = fluentWait.until(ExpectedConditions.elementToBeClickable(CONFIRM_BUTTON));
         click(confirmBtn);
         System.out.println("Clicked Confirm Button.");
 
-        // 4. Assert Success Message (USING JS DEEP SEARCH)
         String expectedMessage = "تم تقديم الطلب بنجاح";
         System.out.println("Waiting for success message containing: " + expectedMessage);
 
         try {
-            // We use a custom wait condition that executes JavaScript to find text deep in Shadow DOM
             boolean isFound = fluentWait.until(d -> isTextPresentInShadowDom(expectedMessage));
 
             Assert.assertTrue(isFound, "Success message '" + expectedMessage + "' was not found in the page (checked Shadow DOMs).");
@@ -128,9 +115,6 @@ public class RegistrationPage extends BasePage {
         }
     }
 
-    /**
-     * Recursively searches for text inside the entire DOM, including all Shadow Roots.
-     */
     private boolean isTextPresentInShadowDom(String text) {
         String script =
                 "const text = arguments[0];" +
@@ -150,8 +134,6 @@ public class RegistrationPage extends BasePage {
 
         return (Boolean) jsExecutor.executeScript(script, text);
     }
-
-    // --- HELPER METHODS ---
 
     private void fillInputInShadow(String hostSelector, String targetSelector, String value) throws InterruptedException {
         WebElement element = locateElementsInShadowRoot(hostSelector, targetSelector);
